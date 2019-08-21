@@ -32,6 +32,7 @@ class CellTest < Minitest::Test
      def test_method_fired_upon # should I split these up?
           @cruiser = Ship.new("Cruiser", 3)
           @cell.place_ship(@cruiser)
+          assert_equal false, @cell.fired_upon?
           @cell.fire_upon
           assert_equal 2, @cell.ship.health
           assert_equal true, @cell.fired_upon?
