@@ -48,19 +48,35 @@ class Board
   def valid_placement?(ship, coordinates)
     if ship.length == coordinates.length
 
-         #test x axis consecutive
-         @x_range.index(get_x_coordinate(coordinates[0])
-         
+         #test x/y axis consecutive
+         x_range_index = @x_range.index(get_x_coordinate(coordinates[0]))
+         x_test_consecutive = true
+         coordinates.each_index do |c_index|
+              if get_x_coordinate(coordinates[c_index]) != @x_range[x_range_index]
+                   x_test_consecutive = false
+                   x_range_index += 1
+              end
+         end
 
-         # x_coordinates same
+         y_range_index = @y_range.index(get_y_coordinate(coordinates[0]))
+         y_test_consecutive = true
+         coordinates.each_index do |c_index|
+              if get_y_coordinate(coordinates[c_index]) != @y_range[y_range_index]
+                   y_test_consecutive = false
+                   y_range_index += 1
+              end
+         end
+
+
+
+
+         # x/y coordinates same
          x_coordinate = get_x_coordinate(coordinates[0])
          y_coordinate = get_y_coordiante(coordinates[0])
 
          x_test_same = (coordinates.find_all {|coordinate| get_x_coordinate == x_coordinate}).length == ship.length
-         x_test_consecutive =
-
          y_test_same = (coordinates.find_all {|coordinate| get_y_coordinate == y_coordinate}).length == ship.length
-         y_test_consecutive
+
          if x_test_consecutive && y_test_same
               true
          elsif x_test_same && y_test_consecutive
