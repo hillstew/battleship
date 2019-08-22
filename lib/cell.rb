@@ -17,7 +17,7 @@ class Cell
 
   def fire_upon
     @hit_status = true
-    @ship.hit
+    @ship.hit unless empty? #only if you have a ship
   end
 
   def fired_upon?
@@ -25,17 +25,17 @@ class Cell
   end
 
   def render(reveal_ship=false)
-    if reveal_ship == false && @ship != nil
+    if reveal_ship == false && !empty?
       if fired_upon? == false
         '.'
-      elsif fired_upon? == true && @ship.health >= 1
+      elsif fired_upon? && !@ship.sunk?
         'H'
-      elsif @ship.health == 0
+      elsif @ship.sunk?
         'X'
       end
-    elsif reveal_ship == true
+    elsif reveal_ship
       'S'
-    elsif @ship == nil
+    elsif empty?
       'M'
     end
   end
