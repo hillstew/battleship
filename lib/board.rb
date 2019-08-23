@@ -1,3 +1,5 @@
+require 'pry'
+
 class Board
   attr_reader :cells, :x_range, :y_range
 
@@ -45,7 +47,7 @@ class Board
 
   def valid_placement?(ship, coordinates)
     # require 'pry'; binding.pry
-    if ship.length == coordinates.length
+    if (ship.length == coordinates.length) && !overlapping?(coordinates)
 
          if x_test_consecutive(coordinates) && y_test_same(ship, coordinates)
               true
@@ -109,6 +111,31 @@ class Board
     end
 
     y_test_same.length == ship.length
+  end
+
+  def place(ship, coordinates)
+       binding.pry
+
+       if valid_placement?(ship, coordinates)
+            coordinates.each do |coordinate|
+                 binding.pry
+                 @cells[coordinate].ship = ship
+            end
+       else
+            # code for signaling output for no placement because not valid or overlapping
+       end
+  end
+
+  #returns true if cells requested to place ship already have ship
+  def overlapping?(coordinates)
+       # binding.pry
+       cell_used = false
+       coordinates.each do |coordinate|
+         if !cell_used
+              cell_used = !@cells[coordinate].empty?
+         end
+       end
+       cell_used
   end
 
 end
