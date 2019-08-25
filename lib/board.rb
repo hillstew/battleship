@@ -141,15 +141,20 @@ class Board
     y_axis_spaces = @y_range[-1].length #determine # of spaces for the y-axis max
 
     # binding.pry
-    output =  "".rjust(y_axis_spaces) + " " + @x_range*" "+ "\n"
+    output =  "".rjust(y_axis_spaces) + " " + @x_range*" "+ " \n"
 
     # binding.pry
     @y_range.each do |y|
       output += y + " ".rjust(y_axis_spaces) + " "
-      @cells.each_pair do |key, cell|
-      # binding.pry
-        output += cell.render(reveal_status) + " "
+      @x_range.each do |x_range_coordinate|
+        output += @cells[y + x_range_coordinate.to_s].render(reveal_status) + " "
       end
+
+
+      # @cells.each_pair do |key, cell|
+      # # binding.pry
+      #   output += cell.render(reveal_status) + " "
+      # end
         output += "\n"
     end
 
