@@ -4,8 +4,6 @@ require './lib/ship'
 require './lib/cell'
 require './lib/board'
 
-require 'pry'
-
 class BoardTest < Minitest::Test
 
   def setup
@@ -70,7 +68,6 @@ class BoardTest < Minitest::Test
     # cell_1 = board.cells["A1"]
     # cell_2 = board.cells["A2"]
     # cell_3 = board.cells["A3"]
-    # require 'pry' ; binding.pry
     assert_equal @cruiser, @board.cells["A1"].ship
     assert_equal @cruiser, @board.cells["A2"].ship
     assert_equal @cruiser, @board.cells["A3"].ship
@@ -84,7 +81,6 @@ class BoardTest < Minitest::Test
 
   def test_it_can_render_a_board
     @board2 = Board.new(4, "D") #infinite board
-    # binding.pry
     @board2.place(@cruiser, ["A1", "A2", "A3"])
     expected = "  1 2 3 4 \nA  . . . . \nB  . . . . \nC  . . . . \nD  . . . . \n"
     assert_equal expected, @board2.render

@@ -1,4 +1,3 @@
-require 'pry'
 
 class Cell
   attr_reader   :coordinate
@@ -29,9 +28,8 @@ class Cell
     @hit_status
   end
 
-  # # #New implementation
+  #New implementation
   def render(reveal_ship=false)
-    # binding.pry
     if fired_upon?
       if (empty? == false)
         if @ship.sunk?
@@ -51,7 +49,6 @@ class Cell
 
   # original implementation
   # def render(reveal_ship=false)
-  #  # binding.pry
   #   if reveal_ship == false && empty? == false
   #
   #     if fired_upon? == false

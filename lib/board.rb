@@ -1,4 +1,3 @@
-require 'pry'
 
 class Board
   attr_reader :cells, :x_range, :y_range
@@ -46,7 +45,6 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    # require 'pry'; binding.pry
     if (ship.length == coordinates.length) && !overlapping?(coordinates)
 
       if x_test_consecutive(coordinates) && y_test_same(ship, coordinates)
@@ -114,11 +112,9 @@ class Board
   end
 
   def place(ship, coordinates)
-    # binding.pry
 
     if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
-        # binding.pry
         @cells[coordinate].ship = ship
       end
     else
@@ -140,21 +136,13 @@ class Board
   def render(reveal_status = false)
     y_axis_spaces = @y_range[-1].length #determine # of spaces for the y-axis max
 
-    # binding.pry
     output =  "".rjust(y_axis_spaces) + " " + @x_range*" "+ " \n"
 
-    # binding.pry
     @y_range.each do |y|
       output += y + " ".rjust(y_axis_spaces) + " "
       @x_range.each do |x_range_coordinate|
         output += @cells[y + x_range_coordinate.to_s].render(reveal_status) + " "
       end
-
-
-      # @cells.each_pair do |key, cell|
-      # # binding.pry
-      #   output += cell.render(reveal_status) + " "
-      # end
         output += "\n"
     end
 
