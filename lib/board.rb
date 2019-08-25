@@ -34,67 +34,67 @@ class Board
 
     #build hash of values
     @y_range.each do |y|
-         @x_range.each do |x|
-              @cells[y + (x).to_s] = Cell.new(y + (x).to_s)
-         end
+      @x_range.each do |x|
+        @cells[y + (x).to_s] = Cell.new(y + (x).to_s)
+      end
     end
 
   end
 
   def valid_coordinate?(coordinate)
-       @cells.has_key?(coordinate)
+    @cells.has_key?(coordinate)
   end
 
   def valid_placement?(ship, coordinates)
     # require 'pry'; binding.pry
     if (ship.length == coordinates.length) && !overlapping?(coordinates)
 
-         if x_test_consecutive(coordinates) && y_test_same(ship, coordinates)
-              true
-         elsif x_test_same(ship, coordinates) && y_test_consecutive(coordinates)
-              true
-         else
-              false
-         end
+      if x_test_consecutive(coordinates) && y_test_same(ship, coordinates)
+        true
+      elsif x_test_same(ship, coordinates) && y_test_consecutive(coordinates)
+        true
+      else
+        false
+      end
     else
-         false
+      false
     end
   end
 
   def get_x_coordinate(coordinate)
-       coordinate.delete('A-Z')
+    coordinate.delete('A-Z')
   end
 
   def get_y_coordinate(coordinate)
-       coordinate.delete('0-9')
+    coordinate.delete('0-9')
   end
 
   #test x/y axis consecutive
   def x_test_consecutive(coordinates)
-     x_range_index = @x_range.index(get_x_coordinate(coordinates[0]).to_i)
-     x_test_consecutive = true
-     coordinates.each_index do |c_index|
-          if get_x_coordinate(coordinates[c_index]).to_i != @x_range[x_range_index]
-               x_test_consecutive = false
-          end
-          x_range_index += 1
-     end
+    x_range_index = @x_range.index(get_x_coordinate(coordinates[0]).to_i)
+    x_test_consecutive = true
+    coordinates.each_index do |c_index|
+      if get_x_coordinate(coordinates[c_index]).to_i != @x_range[x_range_index]
+        x_test_consecutive = false
+      end
+        x_range_index += 1
+    end
 
-     x_test_consecutive
+    x_test_consecutive
   end
 
   def y_test_consecutive(coordinates)
-     y_range_index = @y_range.index(get_y_coordinate(coordinates[0]))
+    y_range_index = @y_range.index(get_y_coordinate(coordinates[0]))
 
-     y_test_consecutive = true
-     coordinates.each_index do |c_index|
-          if get_y_coordinate(coordinates[c_index]) != @y_range[y_range_index]
-             y_test_consecutive = false
-          end
-          y_range_index += 1
+    y_test_consecutive = true
+    coordinates.each_index do |c_index|
+      if get_y_coordinate(coordinates[c_index]) != @y_range[y_range_index]
+        y_test_consecutive = false
+      end
+        y_range_index += 1
      end
 
-     y_test_consecutive
+    y_test_consecutive
   end
 
   def x_test_same(ship, coordinates)
@@ -114,28 +114,46 @@ class Board
   end
 
   def place(ship, coordinates)
-       binding.pry
+    # binding.pry
 
-       if valid_placement?(ship, coordinates)
-            coordinates.each do |coordinate|
-                 binding.pry
-                 @cells[coordinate].ship = ship
-            end
-       else
-            # code for signaling output for no placement because not valid or overlapping
-       end
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |coordinate|
+        # binding.pry
+        @cells[coordinate].ship = ship
+      end
+    else
+      # code for signaling output for no placement because not valid or overlapping
+    end
   end
 
   #returns true if cells requested to place ship already have ship
   def overlapping?(coordinates)
-       # binding.pry
-       cell_used = false
-       coordinates.each do |coordinate|
-         if !cell_used
-              cell_used = !@cells[coordinate].empty?
-         end
-       end
-       cell_used
+    cell_used = false
+    coordinates.each do |coordinate|
+    if !cell_used
+      cell_used = !@cells[coordinate].empty?
+    end
+  end
+    cell_used
+  end
+
+  def render(reveal_status = false)
+    y_axis_spaces = @y_range[-1].length #determine # of spaces for the y-axis max
+
+    # binding.pry
+    output =  "".rjust(y_axis_spaces) + " " + @x_range*" "+ "\n"
+
+    # binding.pry
+    @y_range.each do |y|
+      output += y + " ".rjust(y_axis_spaces) + " "
+      @cells.each_pair do |key, cell|
+      # binding.pry
+        output += cell.render(reveal_status) + " "
+      end
+        output += "\n"
+    end
+
+    output
   end
 
 end
