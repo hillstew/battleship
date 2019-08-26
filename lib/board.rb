@@ -1,4 +1,3 @@
-
 class Board
   attr_reader :cells, :x_range, :y_range
 
@@ -126,10 +125,10 @@ class Board
   def overlapping?(coordinates)
     cell_used = false
     coordinates.each do |coordinate|
-    if !cell_used
-      cell_used = !@cells[coordinate].empty?
+      if !cell_used
+        cell_used = !@cells[coordinate].empty?
+      end
     end
-  end
     cell_used
   end
 
@@ -143,7 +142,7 @@ class Board
       @x_range.each do |x_range_coordinate|
         output += @cells[y + x_range_coordinate.to_s].render(reveal_status) + " "
       end
-        output += "\n"
+      output += "\n"
     end
 
     output

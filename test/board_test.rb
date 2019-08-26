@@ -33,8 +33,8 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_validate_coordinate_false
-    refute @board.valid_coordinate?("FF1")
-    refute @board.valid_coordinate?("A22")
+    refute_equal false, @board.valid_coordinate?("FF1")
+    refute_equal false, @board.valid_coordinate?("A22")
   end
 
   def test_it_can_validate_placement_based_on_length
@@ -42,8 +42,8 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_validate_placement_based_on_length_false
-    refute @board.valid_placement?(@cruiser, ["A1", "A2"])
-    refute @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
+    refute_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
+    refute_equal false, @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
   end
 
   def test_it_can_validate_placement_if_coordinates_are_consecutive
@@ -52,15 +52,15 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_validate_placement_if_coordinates_arenot_consecutive
-   refute @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
-   refute @board.valid_placement?(@submarine, ["A1", "C1"])
-   refute @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
-   refute @board.valid_placement?(@submarine, ["C1", "B1"])
+   refute_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
+   refute_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
+   refute_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
+   refute_equal false, @board.valid_placement?(@submarine, ["C1", "B1"])
   end
 
   def test_it_can_validate_placement_if_coordinates_are_diagonal
-    refute @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
-    refute @board.valid_placement?(@submarine, ["C2", "D3"])
+    refute_equal false, @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
+    refute_equal false, @board.valid_placement?(@submarine, ["C2", "D3"])
   end
 
   def test_it_can_place_a_ship
@@ -76,7 +76,7 @@ class BoardTest < Minitest::Test
 
   def test_it_will_not_overlap_when_ship_placed
     @board.place(@cruiser, ["A1", "A2", "A3"])
-    refute @board.valid_placement?(@submarine, ["A1", "B1"])
+    refute_equal false, @board.valid_placement?(@submarine, ["A1", "B1"])
   end
 
   def test_it_can_render_a_board
