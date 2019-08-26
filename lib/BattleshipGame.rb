@@ -1,8 +1,8 @@
 class BattleshipGame
 
   def initialize
-    human = Person.new
-    computer = Person.new
+    human = Person.new("PLAYER")
+    computer = Person.new("COMPUTER")
   end
 
 end
