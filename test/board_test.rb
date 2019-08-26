@@ -64,37 +64,32 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_place_a_ship
-    skip
     @board.place(@cruiser, ["A1", "A2", "A3"])
-    cell_1 = board.cells["A1"]
-    cell_2 = board.cells["A2"]
-    cell_3 = board.cells["A3"]
-    assert_equal @cruiser, cell_1.ship
-    assert_equal @cruiser, cell_2.ship
-    assert_equal @cruiser, cell_3.ship
-    assert_equal true, cell_3.ship == cell_2.ship
+    # cell_1 = board.cells["A1"]
+    # cell_2 = board.cells["A2"]
+    # cell_3 = board.cells["A3"]
+    assert_equal @cruiser, @board.cells["A1"].ship
+    assert_equal @cruiser, @board.cells["A2"].ship
+    assert_equal @cruiser, @board.cells["A3"].ship
+    assert @board.cells["A1"].ship == @board.cells["A2"].ship
   end
 
   def test_it_will_not_overlap_when_ship_placed
-    skip
     @board.place(@cruiser, ["A1", "A2", "A3"])
-    expected = @board.valid_placement?(@submarine, ["A1", "B1"])
-    assert_equal false, expected
+    refute @board.valid_placement?(@submarine, ["A1", "B1"])
   end
 
   def test_it_can_render_a_board
-    skip
-    @board.place(cruiser, ["A1", "A2", "A3"])
-    expected = @board.render
-    actual = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
-    assert_equal expected, actual
+    @board2 = Board.new(4, "D") #infinite board
+    @board2.place(@cruiser, ["A1", "A2", "A3"])
+    expected = "  1 2 3 4 \nA  . . . . \nB  . . . . \nC  . . . . \nD  . . . . \n"
+    assert_equal expected, @board2.render
   end
 
   def test_it_can_render_with_argument
-    skip
-    @board.place(cruiser, ["A1", "A2", "A3"])
-    expected = @board.render(true)
-    actual = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
-    assert_equal expected, actual
+    @board2 = Board.new(4, "D") #infinite board
+    @board2.place(@cruiser, ["A1", "A2", "A3"])
+    expected = "  1 2 3 4 \nA  S S S . \nB  . . . . \nC  . . . . \nD  . . . . \n"
+    assert_equal expected, @board2.render(true)
   end
 end

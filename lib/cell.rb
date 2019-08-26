@@ -1,5 +1,7 @@
+
 class Cell
-  attr_reader :coordinate, :ship
+  attr_reader   :coordinate
+  attr_accessor :ship
 
   def initialize(coordinate)
     @coordinate = coordinate
@@ -8,35 +10,59 @@ class Cell
   end
 
   def empty?
-    @ship === nil
+    @ship == nil
   end
 
-  def place_ship(cruiser)
-    @ship = cruiser
+  def place_ship(ship)
+    @ship = ship
   end
 
   def fire_upon
-    @hit_status = true
-    @ship.hit unless empty? #only if you have a ship
+    # if empty? #only if you have a ship
+      @hit_status = true
+      @ship.hit unless empty?
+    # end
   end
 
   def fired_upon?
     @hit_status
   end
 
+  #New implementation
   def render(reveal_ship=false)
-    if reveal_ship == false && !empty?
-      if fired_upon? == false
-        '.'
-      elsif fired_upon? && !@ship.sunk?
-        'H'
-      elsif @ship.sunk?
-        'X'
+    if fired_upon?
+      if (empty? == false)
+        if @ship.sunk?
+          "X"
+        else
+          "H"
+        end
+      else
+        "M"
       end
-    elsif reveal_ship
-      'S'
-    elsif empty?
-      'M'
+    elsif reveal_ship == true && empty? == false
+      "S"
+    else
+      "."
     end
   end
+
+  # original implementation
+  # def render(reveal_ship=false)
+  #   if reveal_ship == false && empty? == false
+  #
+  #     if fired_upon? == false
+  #       '.'
+  #     elsif fired_upon? && @ship.sunk? == false
+  #       'H'
+  #     elsif @ship.sunk?
+  #       'X'
+  #     end
+  #
+  #   elsif reveal_ship && empty? == false
+  #     'S'
+  #   else
+  #     'M'
+  #   end
+  # end
 end
