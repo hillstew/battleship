@@ -1,6 +1,7 @@
 require './lib/player'
 require './lib/ship'
 require './lib/board'
+require "pry"
 
 class Game
   attr_reader :player, :computer
@@ -34,31 +35,30 @@ class Game
     puts "You now need to lay out your two ships."
     puts "The Cruiser is two units long and the Submarine is three units long."
     print @player.board.render
-    place_cruiser
+    place_ship("Cruiser", 3)
+    place_ship("Submarine", 2)
   end
 
-  def place_cruiser
-    cruiser = Ship.new("Cruiser", 3)
-    puts "Enter the squares for the Cruiser (3 spaces):"
-    print ">"
+  def place_ship(type, length)
+    ship = Ship.new(type, length)
+    coordinate_message(type, length)
     coordinates = gets.chomp.split
-    if @player.board.valid_placement?(cruiser, coordinates)
-      @player.board.place(cruiser, coordinates)
-      print @player.board.render(true)
+
+    while @player.board.valid_placement?(ship, coordinates) == false
+      puts "Those are invalid coordinates. Please try again:"
+      coordinate_message(type, length)
+      coordinates = gets.chomp.split
     end
-    place_submarine
+
+    @player.board.place(ship, coordinates)
+    print @player.board.render(true)
   end
 
-  def place_submarine
-    submarine = Ship.new("Submarine", 2)
-    puts "Enter the squares for the Submarine (2 spaces):"
+  def coordinate_message(type, length)
+    puts "Enter the squares for the #{type} (#{length} spaces):"
     print ">"
-    coordinates = gets.chomp.split
-    if @player.board.valid_placement?(submarine, coordinates)
-      @player.board.place(submarine, coordinates)
-      print @player.board.render(true)
-    end
   end
+
 end
 
 game = Game.new
