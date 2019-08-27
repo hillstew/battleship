@@ -64,7 +64,8 @@ class Game
   end
 
   def check_ships
-     @players.any? do |player|
+     players = [@player, @computer]
+     players.any? do |player|
        player.all_sunk?
      end
   end
@@ -81,13 +82,13 @@ class Game
     @computer.ships << Ship.new("Submarine", 2)
 
     @computer.ships.each do |ship|
-      binding.pry
+      # binding.pry
       random_coordinates = generate_random_coordinates(ship.length)
 
       unless @computer.board.valid_placement?(ship, random_coordinates)
         random_coordinates = generate_random_coordinates(ship.length)
       end
-      binding.pry
+      # binding.pry
       place_computer_ship(ship, random_coordinates)
       end
   end
@@ -103,12 +104,12 @@ class Game
 
     (length-1).times do
       if random_direction == "H"
-        binding.pry
+        # binding.pry
         next_x = @computer.board.x_range[x_range_index + 1]
         x_range_index += 1
         coordinates << random_y + next_x.to_s
       else
-        binding.pry
+        # binding.pry
         next_y = @computer.board.y_range[y_range_index + 1]
         y_range_index += 1
         coordinates << next_y + random_x

@@ -24,7 +24,7 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    binding.pry
+    # binding.pry
 
     if coordinates.all? do |coordinate|
       valid_coordinate?(coordinate) end
@@ -110,14 +110,14 @@ class Board
 
   #returns true if cells requested to place ship already have ship
   def overlapping?(coordinates)
-    if
     cell_used = false
-    coordinates.each do |coordinate|
-    if !cell_used
-      cell_used = !@cells[coordinate].empty?
-    end
-  end
+      coordinates.each do |coordinate|
+        if !cell_used
+          cell_used = !@cells[coordinate].empty?
+        end
+      end
     cell_used
+
   end
 
   def render(reveal_status = false)
