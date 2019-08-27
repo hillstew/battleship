@@ -1,4 +1,5 @@
 require './lib/cell'
+require 'pry'
 
 class Board
   attr_reader :cells, :x_range, :y_range
@@ -23,17 +24,24 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    if (ship.length == coordinates.length) && !overlapping?(coordinates)
+    binding.pry
 
-      if x_test_consecutive(coordinates) && y_test_same(ship, coordinates)
-        true
-      elsif x_test_same(ship, coordinates) && y_test_consecutive(coordinates)
-        true
+    if coordinates.all? do |coordinate|
+      valid_coordinate?(coordinate) end
+
+
+      if (ship.length == coordinates.length) && overlapping?(coordinates) == false
+
+        if x_test_consecutive(coordinates) && y_test_same(ship, coordinates)
+          true
+        elsif x_test_same(ship, coordinates) && y_test_consecutive(coordinates)
+          true
+        else
+          false
+        end
       else
         false
       end
-    else
-      false
     end
   end
 
@@ -102,6 +110,7 @@ class Board
 
   #returns true if cells requested to place ship already have ship
   def overlapping?(coordinates)
+    if
     cell_used = false
     coordinates.each do |coordinate|
     if !cell_used
