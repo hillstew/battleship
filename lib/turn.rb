@@ -1,5 +1,3 @@
-require 'pry'
-
 class Turn
   attr_reader :player
 
@@ -10,7 +8,7 @@ class Turn
     @hit_message = nil
   end
 
-  def get_coordinate_to_fire_on
+  def player_take_shot
     coordinate_message
     coordinate = gets.chomp.upcase
 
@@ -35,10 +33,6 @@ class Turn
       system('clear')
       puts "Your shot of #{coordinate} has already been fired upon."
     end
-    # system('clear')
-    # puts @hit_message
-    # puts ""
-    # computer_take_shot
   end
 
   def coordinate_message
@@ -47,9 +41,8 @@ class Turn
   end
 
   def show_boards
-    # system('clear')
     puts "=============COMPUTER BOARD=============="
-    print @computer.board.render
+    print @computer.board.render(true)
     puts "=============PLAYER BOARD================"
     print @player.board.render(true)
   end
@@ -57,15 +50,12 @@ class Turn
   def computer_take_shot
     shot = generate_random_shot
     cell = @player.board.cells.values_at(shot)
-    # binding.pry
 
     while cell[0].hit_status do
-      # binding.pry
       shot = generate_random_shot
       cell = @player.board.cells.values_at(shot)
     end
 
-    # binding.pry
     if cell[0].coordinate == shot && cell[0].fired_upon? == false
       cell[0].fire_upon
       if cell[0].render == "X"

@@ -1,5 +1,4 @@
 require './lib/cell'
-require 'pry'
 
 class Board
   attr_reader :cells, :x_range, :y_range
@@ -27,7 +26,6 @@ class Board
 
     if coordinates.all? do |coordinate|
       valid_coordinate?(coordinate) end
-
 
       if (ship.length == coordinates.length) && overlapping?(coordinates) == false
 
@@ -116,7 +114,6 @@ class Board
         end
       end
     cell_used
-
   end
 
   def render(reveal_status = false)
