@@ -14,7 +14,7 @@ class Turn
     coordinate_message
     coordinate = gets.chomp
 
-    unless @computer.board.valid_coordinate?(coordinate)
+    until @computer.board.valid_coordinate?(coordinate) do
       puts "Please enter a valid coordinate:"
       coordinate = gets.chomp
     end
