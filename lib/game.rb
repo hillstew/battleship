@@ -10,6 +10,7 @@ class Game
   def initialize
     @player = Player.new
     @computer = Player.new(true)
+    @winner = nil
   end
 
   def start
@@ -20,16 +21,23 @@ class Game
       setup_computer_ships
       place_ship_message
 
-      while check_ships
+      while !check_ships
         @current_turn = Turn.new(@player, @computer)
         @current_turn.show_boards
         @current_turn.get_coordinate_to_fire_on
-        game_over?
       end
 
-
-
+      determine_winner
     end
+  end
+
+  def determine_winner
+    if @winner == @player
+      puts "You won!"
+    else
+      puts "I won!"
+    end
+    start
   end
 
   def place_ship_message
@@ -65,6 +73,10 @@ class Game
 
   def check_ships
      players = [@player, @computer]
+     @winner = players.find do |player|
+       player.all_sunk?
+     end
+
      players.any? do |player|
        player.all_sunk?
      end
@@ -76,19 +88,15 @@ class Game
   end
 
   def setup_computer_ships
-    #hardcoded ships
-    # binding.pry
     @computer.ships << Ship.new("Cruiser", 3)
     @computer.ships << Ship.new("Submarine", 2)
 
     @computer.ships.each do |ship|
-      # binding.pry
       random_coordinates = generate_random_coordinates(ship.length)
 
       unless @computer.board.valid_placement?(ship, random_coordinates)
         random_coordinates = generate_random_coordinates(ship.length)
       end
-      # binding.pry
       place_computer_ship(ship, random_coordinates)
       end
   end
@@ -104,12 +112,10 @@ class Game
 
     (length-1).times do
       if random_direction == "H"
-        # binding.pry
         next_x = @computer.board.x_range[x_range_index + 1]
         x_range_index += 1
         coordinates << random_y + next_x.to_s
       else
-        # binding.pry
         next_y = @computer.board.y_range[y_range_index + 1]
         y_range_index += 1
         coordinates << next_y + random_x
@@ -118,7 +124,6 @@ class Game
 
     coordinates
   end
-
 end
 
 game = Game.new

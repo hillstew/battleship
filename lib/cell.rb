@@ -1,6 +1,6 @@
 
 class Cell
-  attr_reader   :coordinate
+  attr_reader   :coordinate, :hit_status
   attr_accessor :ship
 
   def initialize(coordinate)
