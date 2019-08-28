@@ -28,6 +28,11 @@ class Game
         @current_turn = Turn.new(@player, @computer)
         @current_turn.show_boards
         @current_turn.get_coordinate_to_fire_on
+
+        players = [@player, @computer]
+        @winner = players.find do |player|
+          player.all_sunk?
+        end
       end
 
       determine_winner
@@ -58,7 +63,7 @@ class Game
   def place_player_ship(type, length)
     ship = Ship.new(type, length)
     @player.ships << ship
-    # coordinate_message(type, length)
+    coordinate_message(type, length)
     coordinates = gets.chomp.upcase.split
 
     until @player.board.valid_placement?(ship, coordinates) do
@@ -79,9 +84,9 @@ class Game
 
   def check_ships
      players = [@player, @computer]
-     @winner = players.find do |player|
-       player.all_sunk?
-     end
+     # @winner = players.find do |player|
+     #   player.all_sunk?
+     # end
 
      players.any? do |player|
        player.all_sunk?

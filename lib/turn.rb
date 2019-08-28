@@ -22,19 +22,20 @@ class Turn
     cell = @computer.board.cells.values_at(coordinate)
     if cell[0].coordinate == coordinate && cell[0].fired_upon? == false
       cell[0].fire_upon
+      puts ""
       if cell[0].render == "X"
-        @hit_message = "Your shot of #{coordinate} results in a sunk ship!"
+        puts "Your shot of #{coordinate} results in a sunk ship!"
       elsif cell[0].render == "H"
-        @hit_message = "Your shot at #{coordinate} made a hit."
+        puts "Your shot at #{coordinate} made a hit."
       else
-        @hit_message = "Your shot on #{coordinate} was a miss."
+        puts "Your shot on #{coordinate} was a miss."
       end
     else
-      @hit_message = "Your shot of #{coordinate} has already been fired upon."
+      puts "Your shot of #{coordinate} has already been fired upon."
     end
-    system('clear')
-    puts @hit_message
-    puts ""
+    # system('clear')
+    # puts @hit_message
+    # puts ""
     computer_take_shot
   end
 
@@ -66,15 +67,14 @@ class Turn
     if cell[0].coordinate == shot && cell[0].fired_upon? == false
       cell[0].fire_upon
       if cell[0].render == "X"
-        @hit_message = "Computer shot of #{shot} results in a sunk ship!"
+        puts "Computer shot of #{shot} results in a sunk ship!"
+
       elsif cell[0].render == "H"
-        @hit_message = "Computer shot at #{shot} made a hit."
+        puts "Computer shot at #{shot} made a hit."
       else
-        @hit_message = "Computer shot on #{shot} was a miss."
+        puts"Computer shot on #{shot} was a miss."
       end
     end
-    puts ""
-    puts @hit_message
     puts ""
   end
 
