@@ -55,9 +55,8 @@ class Game
     coordinate_message(type, length)
     coordinates = gets.chomp.split
 
-    while @player.board.valid_placement?(ship, coordinates) == false
+    until @player.board.valid_placement?(ship, coordinates) do
       puts "Those are invalid coordinates. Please try again:"
-      coordinate_message(type, length)
       coordinates = gets.chomp.split
     end
 
@@ -66,9 +65,7 @@ class Game
   end
 
   def place_computer_ship(ship, coordinates)
-    #valid_placement? already passed with the random coordinates
     @computer.board.place(ship, coordinates)
-    print @computer.board.render(true)
   end
 
   def check_ships
