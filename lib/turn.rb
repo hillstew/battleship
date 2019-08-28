@@ -12,11 +12,11 @@ class Turn
 
   def get_coordinate_to_fire_on
     coordinate_message
-    coordinate = gets.chomp
+    coordinate = gets.chomp.upcase
 
-    unless @computer.board.valid_coordinate?(coordinate)
+    until @computer.board.valid_coordinate?(coordinate) do
       puts "Please enter a valid coordinate:"
-      coordinate = gets.chomp
+      coordinate = gets.chomp.upcase
     end
 
     cell = @computer.board.cells.values_at(coordinate)
@@ -32,7 +32,7 @@ class Turn
     else
       @hit_message = "Your shot of #{coordinate} has already been fired upon."
     end
-    puts ""
+    system('clear')
     puts @hit_message
     puts ""
     computer_take_shot
@@ -44,6 +44,7 @@ class Turn
   end
 
   def show_boards
+    # system('clear')
     puts "=============COMPUTER BOARD=============="
     print @computer.board.render
     puts "=============PLAYER BOARD================"
@@ -53,11 +54,15 @@ class Turn
   def computer_take_shot
     shot = generate_random_shot
     cell = @player.board.cells.values_at(shot)
-    binding.pry
-    unless cell[0].hit_status
+    # binding.pry
+
+    while cell[0].hit_status do
+      # binding.pry
       shot = generate_random_shot
+      cell = @player.board.cells.values_at(shot)
     end
 
+    # binding.pry
     if cell[0].coordinate == shot && cell[0].fired_upon? == false
       cell[0].fire_upon
       if cell[0].render == "X"
@@ -79,8 +84,5 @@ class Turn
 
     random_y + random_x
   end
-
-
-
 
 end
