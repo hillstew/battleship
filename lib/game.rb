@@ -14,9 +14,12 @@ class Game
   end
 
   def start
+    # system('clear')
+    puts ""
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     response = gets.chomp
+
     if response == "p"
       setup_computer_ships
       place_ship_message
@@ -41,34 +44,37 @@ class Game
   end
 
   def place_ship_message
+    puts ""
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
+    puts ""
     puts "The Cruiser is two units long and the Submarine is three units long."
     print @player.board.render
     place_player_ship("Cruiser", 3)
     place_player_ship("Submarine", 2)
+    system('clear')
   end
 
   def place_player_ship(type, length)
     ship = Ship.new(type, length)
     @player.ships << ship
-    coordinate_message(type, length)
-    coordinates = gets.chomp.split
+    # coordinate_message(type, length)
+    coordinates = gets.chomp.upcase.split
 
-    while @player.board.valid_placement?(ship, coordinates) == false
+    until @player.board.valid_placement?(ship, coordinates) do
       puts "Those are invalid coordinates. Please try again:"
       coordinate_message(type, length)
-      coordinates = gets.chomp.split
+      coordinates = gets.chomp.upcase.split
     end
 
     @player.board.place(ship, coordinates)
-    print @player.board.render(true)
+    # print @player.board.render(true)
   end
 
   def place_computer_ship(ship, coordinates)
     #valid_placement? already passed with the random coordinates
     @computer.board.place(ship, coordinates)
-    print @computer.board.render(true)
+    # print @computer.board.render(true)
   end
 
   def check_ships
@@ -112,13 +118,21 @@ class Game
 
     (length-1).times do
       if random_direction == "H"
-        next_x = @computer.board.x_range[x_range_index + 1]
-        x_range_index += 1
-        coordinates << random_y + next_x.to_s
+        if @computer.board.x_range[x_range_index + 1] != nil
+          next_x = @computer.board.x_range[x_range_index + 1]
+          x_range_index += 1
+          coordinates << random_y + next_x.to_s
+        else
+          coordinates << ""
+        end
       else
-        next_y = @computer.board.y_range[y_range_index + 1]
-        y_range_index += 1
-        coordinates << next_y + random_x
+        if @computer.board.y_range[y_range_index + 1] != nil
+          next_y = @computer.board.y_range[y_range_index + 1]
+          y_range_index += 1
+          coordinates << next_y + random_x
+        else
+          coordinates << ""
+        end
       end
     end
 
@@ -126,5 +140,6 @@ class Game
   end
 end
 
+system('clear')
 game = Game.new
 game.start
