@@ -7,7 +7,7 @@ class Player
   def initialize(computer=false)
     @computer = computer
     @turns = []
-    @board = Board.new(4, "D")
+    @board = Board.new(10, "F")
     @ships = []
     @current_turn = false
   end
