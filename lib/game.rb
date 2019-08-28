@@ -2,7 +2,6 @@ require './lib/player'
 require './lib/ship'
 require './lib/board'
 require './lib/turn'
-require "pry"
 
 class Game
   attr_reader :player, :computer
@@ -10,11 +9,10 @@ class Game
   def initialize
     @player = Player.new
     @computer = Player.new(true)
-    @winner = nil
+    @loser = nil
   end
 
   def start
-    # system('clear')
     puts ""
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
@@ -24,27 +22,33 @@ class Game
       setup_computer_ships
       place_ship_message
 
-      while !check_ships
+      until @loser != nil do
         turn = Turn.new(@player, @computer)
         turn.show_boards
-        turn.get_coordinate_to_fire_on
-        turn.computer_take_shot
-
-        players = [@player, @computer]
-        @winner = players.find do |player|
-          player.all_sunk?
-        end
+        turn.player_take_shot
+        turn.computer_take_shot unless check_ships
       end
-
       determine_winner
     end
   end
 
+  def check_ships
+     players = [@player, @computer]
+
+     @loser = players.find do |player|
+       player.all_sunk?
+     end
+
+     players.any? do |player|
+       player.all_sunk?
+     end
+  end
+
   def determine_winner
-    if @winner == @player
-      puts "You won!"
-    else
+    if @loser == @player
       puts "I won!"
+    else
+      puts "You won!"
     end
     start
   end
@@ -54,7 +58,7 @@ class Game
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
     puts ""
-    puts "The Cruiser is two units long and the Submarine is three units long."
+    puts "The Cruiser is three units long and the Submarine is two units long."
     print @player.board.render
     place_player_ship("Cruiser", 3)
     place_player_ship("Submarine", 2)
@@ -69,30 +73,18 @@ class Game
 
     until @player.board.valid_placement?(ship, coordinates) do
       puts "Those are invalid coordinates. Please try again:"
-      coordinate_message(type, length)
+      print ">"
       coordinates = gets.chomp.upcase.split
     end
 
     @player.board.place(ship, coordinates)
-    # print @player.board.render(true)
   end
 
   def place_computer_ship(ship, coordinates)
-    #valid_placement? already passed with the random coordinates
     @computer.board.place(ship, coordinates)
-    # print @computer.board.render(true)
   end
 
-  def check_ships
-     players = [@player, @computer]
-     # @winner = players.find do |player|
-     #   player.all_sunk?
-     # end
 
-     players.any? do |player|
-       player.all_sunk?
-     end
-  end
 
   def coordinate_message(type, length)
     puts "Enter the squares for the #{type} (#{length} spaces):"
