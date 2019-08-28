@@ -122,8 +122,10 @@ class Board
 
   def render(reveal_status = false)
     y_axis_spaces = @y_range[-1].length #determine # of spaces for the y-axis max
+    x_axis_spaces = @x_range[-1].length #determine # of spaces for the x-axis max
 
-    output =  "".rjust(y_axis_spaces) + " " + @x_range*" "+ " \n"
+    binding.pry
+    output =  "".rjust(y_axis_spaces) + " " + "".rjust(x_axis_spaces) + @x_range*" "+ " \n"
 
     @y_range.each do |y|
       output += y + " ".rjust(y_axis_spaces) + " "
