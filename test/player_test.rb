@@ -6,7 +6,7 @@ require './lib/board'
 class PlayerTest < Minitest::Test
   def setup
     @player = Player.new
-    @computer = Player.new(computer=true)
+    @player2 = Player.new(true)
   end
 
   def test_it_exists
@@ -14,7 +14,8 @@ class PlayerTest < Minitest::Test
   end
 
   def test_it_has_attributes
-    assert_equal [], @player.shots
     assert_instance_of Board, @player.board
+    assert_equal [], @player.ships
+    assert_equal true, @player2.computer
   end
 end
