@@ -23,6 +23,7 @@ class Turn
     if cell[0].coordinate == coordinate && cell[0].fired_upon? == false
       cell[0].fire_upon
       puts ""
+      system('clear')
       if cell[0].render == "X"
         puts "Your shot of #{coordinate} results in a sunk ship!"
       elsif cell[0].render == "H"
@@ -31,12 +32,13 @@ class Turn
         puts "Your shot on #{coordinate} was a miss."
       end
     else
+      system('clear')
       puts "Your shot of #{coordinate} has already been fired upon."
     end
     # system('clear')
     # puts @hit_message
     # puts ""
-    computer_take_shot
+    # computer_take_shot
   end
 
   def coordinate_message

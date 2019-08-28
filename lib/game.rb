@@ -25,9 +25,10 @@ class Game
       place_ship_message
 
       while !check_ships
-        @current_turn = Turn.new(@player, @computer)
-        @current_turn.show_boards
-        @current_turn.get_coordinate_to_fire_on
+        turn = Turn.new(@player, @computer)
+        turn.show_boards
+        turn.get_coordinate_to_fire_on
+        turn.computer_take_shot
 
         players = [@player, @computer]
         @winner = players.find do |player|
